@@ -152,10 +152,10 @@ def export_graph(tree, write):
 
     write('digraph {')
     write('\trankdir = LR;')
-    write('edge [arrowsize=0.4, fontsize=10]')
-    write('node%s [label="",style=filled,fillcolor=lightgrey,'
-          'shape=circle,width=.1,height=.1];' % tree.root.id)
+    write('\tedge [arrowsize=0.4, fontsize=10]')
     write('\t//----- nodes -----')
+    write('\tnode%s [label="",style=filled,fillcolor=lightgrey,'
+          'shape=circle,width=.1,height=.1];' % tree.root.id)
     export_nodes(tree.root)
     write('\t//----- edges -----')
     export_edges(tree.root)

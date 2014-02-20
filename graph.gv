@@ -1,8 +1,8 @@
 digraph {
 	rankdir = LR;
-edge [arrowsize=0.4, fontsize=10]
-node1 [label="",style=filled,fillcolor=lightgrey,shape=circle,width=.1,height=.1];
-//----- nodes -----
+	edge [arrowsize=0.4, fontsize=10]
+	//----- nodes -----
+	node1 [label="",style=filled,fillcolor=lightgrey,shape=circle,width=.1,height=.1];
 	node2 [label="",style=filled,fillcolor=lightgrey,shape=circle,width=.07,height=.07]
 	node6 [label="",shape=point]
 	node5 [label="",style=filled,fillcolor=lightgrey,shape=circle,width=.07,height=.07]
@@ -19,7 +19,7 @@ node1 [label="",style=filled,fillcolor=lightgrey,shape=circle,width=.1,height=.1
 	node16 [label="",shape=point]
 	node9 [label="",shape=point]
 	node17 [label="",shape=point]
-//----- edges -----
+	//----- edges -----
 	node1 -> node2 [label="ab",weight=3]
 	node2 -> node3 [label="",weight=1,style=dotted]
 	node2 -> node6 [label="xabcd",weight=3]
@@ -28,11 +28,9 @@ node1 [label="",style=filled,fillcolor=lightgrey,shape=circle,width=.1,height=.1
 	node5 -> node10 [label="abxabcd",weight=3]
 	node5 -> node11 [label="d",weight=3]
 	node1 -> node4 [label="c",weight=3]
-	node4 -> node1 [label="",weight=1,style=dotted]
 	node4 -> node14 [label="abxabcd",weight=3]
 	node4 -> node15 [label="d",weight=3]
 	node1 -> node3 [label="b",weight=3]
-	node3 -> node1 [label="",weight=1,style=dotted]
 	node3 -> node8 [label="xabcd",weight=3]
 	node3 -> node7 [label="c",weight=3]
 	node7 -> node4 [label="",weight=1,style=dotted]
