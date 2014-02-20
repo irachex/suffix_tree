@@ -33,10 +33,7 @@ class Edge:
         return self.node
 
     def length(self):
-        if self.end == -1:
-            return 999999999
-        else:
-            return self.end - self.start
+        return self.end - self.start if self.end != -1 else 999999999
 
 
 class Node:
@@ -78,7 +75,7 @@ class SuffixTree:
             self.extend(i, c)
 
     def add_suffix_link(self, node):
-        if node == self.root:
+        if node is self.root:
             return
         if self.pre_node:
             self.pre_node.suffix_link = node
@@ -158,9 +155,9 @@ def export_graph(tree, write):
     write('edge [arrowsize=0.4, fontsize=10]')
     write('node%s [label="",style=filled,fillcolor=lightgrey,'
           'shape=circle,width=.1,height=.1];' % tree.root.id)
-    write('//----- nodes -----')
+    write('\t//----- nodes -----')
     export_nodes(tree.root)
-    write('//----- edges -----')
+    write('\t//----- edges -----')
     export_edges(tree.root)
     write('}')
 
