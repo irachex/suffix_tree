@@ -1,0 +1,26 @@
+digraph {
+	rankdir = LR;
+	edge [arrowsize=0.4, fontsize=10]
+	//----- nodes -----
+	node1 [label="",style=filled,fillcolor=lightgrey,shape=circle,width=.1,height=.1];
+	node2 [label="",style=filled,fillcolor=lightgrey,shape=circle,width=.07,height=.07]
+	node3 [label="",style=filled,fillcolor=lightgrey,shape=circle,width=.07,height=.07]
+	node8 [label="",shape=point]
+	node7 [label="",shape=point]
+	node9 [label="",shape=point]
+	node4 [label="",shape=point]
+	node10 [label="",shape=point]
+	node5 [label="",shape=point]
+	node6 [label="",shape=point]
+	//----- edges -----
+	node1 -> node2 [label="a",weight=3]
+	node2 -> node3 [label="a",weight=3]
+	node3 -> node2 [label="",weight=1,style=dotted]
+	node3 -> node8 [label="c",weight=3]
+	node3 -> node7 [label="b",weight=3]
+	node2 -> node9 [label="c",weight=3]
+	node2 -> node4 [label="b",weight=3]
+	node1 -> node10 [label="c",weight=3]
+	node1 -> node5 [label="b",weight=3]
+	node1 -> node6 [label="",weight=3]
+}
