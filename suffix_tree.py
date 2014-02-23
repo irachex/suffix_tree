@@ -84,6 +84,8 @@ class SuffixTree:
         self.root = Node()
         self.text = text
         self.canonicize = canonicize
+        if canonicize in text:
+            raise ValueError("text can not contain canonicize!")
         self.build()
 
     def build(self):
@@ -148,6 +150,22 @@ class SuffixTree:
                     active_point.node = self.root
 
 
+class GeneralizedSuffixTree(SuffixTree):
+
+    def __init__(self, texts):
+        self.start_pos = [0]
+        concat_str = ''
+        for i, text in enumerate(texts):
+            terminal_char = chr(i + 1)
+            if terminal_char in text:
+                raise ValueError("text can not contain canonicize!")
+            concat_str += text + terminal_char
+            self.start_pos.append(len(text))
+
+        self.concat_str = concat_str
+        SuffixTree.__init__(self, self.concat_str)
+
+
 def export_graph(root, write):
 
     def export_nodes(node):
@@ -186,5 +204,7 @@ def print_func(s):
 
 
 if __name__ == "__main__":
-    tree = SuffixTree('abcabxabcd')
+    #tree = SuffixTree('abcabxabcd')
+    #export_graph(tree.root, print_func)
+    tree = GeneralizedSuffixTree(['aab', 'aac'])
     export_graph(tree.root, print_func)
