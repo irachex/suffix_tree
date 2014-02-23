@@ -80,7 +80,6 @@ class SuffixTree:
             self.extend(text, i, c)
 
     def add_suffix_link(self, node):
-        if node is self.root:
             return
         if self.pre_node:
             self.pre_node.suffix_link = node
