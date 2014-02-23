@@ -25,16 +25,23 @@ class ActivePoint:
 
 
 class Edge:
-    def __init__(self, start, end, text, node):
+    def __init__(self, start, text, node, end=-1):
         self.start = start
         self.end = end
         self.text = text
         self.node = node
 
     def split(self, split_length, current_pos, text):
-        self.end = self.start + split_length
-        self.node.add_edge(Edge(self.end, -1, self.text, Node()))
-        self.node.add_edge(Edge(current_pos, -1, text, Node()))
+        new_end = self.start + split_length
+        new_node = Node()
+        new_node.edges = self.node.edges
+        new_node.suffix_link = self.node.suffix_link
+        self.node.clear_edges()
+        self.node.add_edge(Edge(new_end, self.text, new_node,
+                                end=self.end))
+        self.node.add_edge(Edge(current_pos, text, Node()))
+        self.end = new_end
+        self.node.suffix_link = None
         return self.node
 
     def length(self):
@@ -44,8 +51,11 @@ class Edge:
     def start_char(self):
         return self.text[self.start]
 
-    def __repr__(self):
+    def str(self):
         return self.text[self.start:self.end]
+
+    def __repr__(self):
+        return self.str()
 
 
 class Node:
@@ -64,10 +74,13 @@ class Node:
     def get_edge(self, start_char):
         return self.edges.get(start_char)
 
+    def clear_edges(self):
+        self.edges = {}
+
 
 class SuffixTree:
 
-    def __init__(self, canonicize='$'):
+    def __init__(self, canonicize='~'):
         self.root = Node()
         self.canonicize = canonicize
 
@@ -80,7 +93,6 @@ class SuffixTree:
             self.extend(text, i, c)
 
     def add_suffix_link(self, node):
-            return
         if self.pre_node:
             self.pre_node.suffix_link = node
         self.pre_node = node
@@ -94,18 +106,19 @@ class SuffixTree:
             return True
         return False
 
-    def extend(self, text, start, c):
+    def extend(self, text, current, c):
         self.reminder += 1
         self.pre_node = None
         active_point = self.active_point
 
         while self.reminder:
             if active_point.length == 0:
-                active_point.edge_pos = start
+                active_point.edge_pos = current
 
             active_edge = active_point.edge
+
             if active_edge is None:
-                active_point.node.add_edge(Edge(start, -1, text, Node()))
+                active_point.node.add_edge(Edge(current, text, Node()))
                 self.add_suffix_link(active_point.node) # Rule 2
             else:
                 if self.walk_down(active_edge): # Observation 2
@@ -116,7 +129,7 @@ class SuffixTree:
                     self.add_suffix_link(active_point.node)  # Observation 3
                     break
 
-                split_node = active_edge.split(active_point.length, start, text)
+                split_node = active_edge.split(active_point.length, current, text)
                 self.add_suffix_link(split_node)  # Rule 2
 
             self.reminder -= 1
@@ -124,7 +137,7 @@ class SuffixTree:
             if active_point.node is self.root and active_point.length > 0:
                 # Rule 1
                 active_point.length -= 1
-                active_point.edge_pos = start - self.reminder + 1
+                active_point.edge_pos = current - self.reminder + 1
             else:
                 # Rule 3
                 if active_point.node.suffix_link is not None:
