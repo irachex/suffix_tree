@@ -80,12 +80,14 @@ class Node:
 
 class SuffixTree:
 
-    def __init__(self, canonicize='~'):
+    def __init__(self, text, canonicize='~'):
         self.root = Node()
+        self.text = text
         self.canonicize = canonicize
+        self.build()
 
-    def build(self, text):
-        text += self.canonicize
+    def build(self):
+        text = self.text + self.canonicize
         self.active_point = ActivePoint(self.root, None, 0, text)
         self.reminder = 0
 
@@ -146,10 +148,10 @@ class SuffixTree:
                     active_point.node = self.root
 
 
-def export_graph(tree, write):
+def export_graph(root, write):
 
     def export_nodes(node):
-        if node != tree.root:
+        if node != root:
             node_style = ('[label="",style=filled,fillcolor=lightgrey,'
                           'shape=circle,width=.07,height=.07]')
             if not node.edges:  # leaf
@@ -172,20 +174,17 @@ def export_graph(tree, write):
     write('\tedge [arrowsize=0.4, fontsize=10]')
     write('\t//----- nodes -----')
     write('\tnode%s [label="",style=filled,fillcolor=lightgrey,'
-          'shape=circle,width=.1,height=.1];' % tree.root.id)
-    export_nodes(tree.root)
+          'shape=circle,width=.1,height=.1];' % root.id)
+    export_nodes(root)
     write('\t//----- edges -----')
-    export_edges(tree.root)
+    export_edges(root)
     write('}')
 
 
 def print_func(s):
-        print s
+    print s
 
 
 if __name__ == "__main__":
-    tree = SuffixTree()
-    # tree.build('abcabxabcd')
-    tree.build('aab')
-    tree.build('aac')
-    export_graph(tree, print_func)
+    tree = SuffixTree('abcabxabcd')
+    export_graph(tree.root, print_func)
